@@ -1,5 +1,9 @@
 import javax.swing.JFrame;
 
+/**
+ * This is the JFrame that the game uses.
+ * @author andrew
+ */
 public class Display extends JFrame
 {
 	public static final String GAME_TITLE = "2D Rally Extreme";

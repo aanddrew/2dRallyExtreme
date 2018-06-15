@@ -26,11 +26,11 @@ public class Race extends JComponent
 			@Override
 			public void keyPressed(KeyEvent e) 
 			{
+				System.out.println("Key Pressed: " + KeyEvent.KEY_PRESSED);
 				if (e.getKeyCode() == KeyEvent.VK_ESCAPE)
 				{
 					togglePauseMenu();
 				}
-				System.out.println("hi");
 			}
 			@Override
 			public void keyReleased(KeyEvent e) 
@@ -47,11 +47,15 @@ public class Race extends JComponent
 		});
 		
 		this.setFocusable(true);
+		this.requestFocusInWindow();
+		this.grabFocus();
 	}
 	
 	public void update()
 	{
-		car.rotate(0.1);
+		car.rotate(0.001);
+		
+		this.repaint();
 	}
 	
 	public void togglePauseMenu()

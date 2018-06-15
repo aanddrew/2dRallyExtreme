@@ -1,6 +1,11 @@
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Polygon;
 
+/**
+ * A car.
+ * @author Andrew Weller andrewweller.cs@gmail.com
+ */
 public class Car 
 {
 	private double x;
@@ -10,6 +15,8 @@ public class Car
 	private Color color;
 	private int size;
 	
+	private Polygon body;
+	
 	public Car()
 	{
 		x = 500;
@@ -18,6 +25,8 @@ public class Car
 		
 		color = Color.RED;
 		size = 20;
+		
+		body = null;
 	}
 	
 	public void rotate(double dTheta)
@@ -37,7 +46,7 @@ public class Car
 				   (int) (y + size*Math.sin(angle+7*Math.PI/6)),
 				   (int) (y + size*Math.sin(angle+11*Math.PI/6))};
 		//rectangle rotates as instance variable angle increases or decreases
-		
+		body = new Polygon(xCoords, yCoords, 4);
 		
 		g2d.setColor(Color.BLACK);
 		for (int i = 0; i < xCoords.length; i++)
@@ -46,6 +55,6 @@ public class Car
 		}
 		
 		g2d.setColor(color);
-		g2d.fillPolygon(xCoords, yCoords, 4);
+		g2d.fillPolygon(body);
 	}
 }
