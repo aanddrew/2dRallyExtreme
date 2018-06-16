@@ -31,18 +31,18 @@ public class Race extends JPanel
 			@Override
 			public void keyPressed(KeyEvent e) 
 			{
-				System.out.println("Key Pressed: " + e.getKeyChar());
 				if (e.getKeyCode() == KeyEvent.VK_ESCAPE) paused = !paused;
+				car.keyPressed(e);
 			}
 			@Override
 			public void keyReleased(KeyEvent e) 
 			{
-				// TODO Auto-generated method stub
+				car.keyReleased(e);
 			}
 			@Override
 			public void keyTyped(KeyEvent e) 
 			{
-				// TODO Auto-generated method stub
+				
 			}
 		});
 		
@@ -71,7 +71,9 @@ public class Race extends JPanel
 
 	public void update()
 	{
-		car.rotate(0.001);
+//		car.rotate(0.001);
+		
+		car.update();
 		
 		showPauseMenu(paused);
 		

@@ -16,7 +16,6 @@ public class Game
 		disp = new Display();
 		
 		toMainMenu();
-//		disp.add(new MainMenu(this));
 	}
 	
 	public void update()
@@ -26,7 +25,6 @@ public class Game
 		{
 			try
 			{
-//				System.out.println(disp.getFocusOwner());
 				race.update();
 			}
 			catch (NullPointerException e)

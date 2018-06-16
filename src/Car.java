@@ -1,6 +1,10 @@
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.Polygon;
+import java.awt.event.KeyEvent;
+
+import assets.graphics.RotatingRectangle;
 
 /**
  * A car.
@@ -8,14 +12,24 @@ import java.awt.Polygon;
  */
 public class Car 
 {
+	public static final double TURN_SPEED = 0.005;
+	
 	private double x;
 	private double y;
 	private double angle;
 	
 	private Color color;
-	private int size;
 	
-	private Polygon body;
+	private double length;
+	private double width;
+	
+	private double turningAngle;
+	
+	private RotatingRectangle body;
+	private RotatingRectangle wheelWells;
+	
+	private boolean turningRight;
+	private boolean turningLeft;
 	
 	public Car()
 	{
@@ -24,9 +38,23 @@ public class Car
 		angle = Math.PI/2;
 		
 		color = Color.RED;
-		size = 20;
+		length = 40;
+		width = 25;
 		
-		body = null;
+		body = new RotatingRectangle(x,y,length,width, angle);
+		wheelWells = new RotatingRectangle(x,y, length *0.7, width, angle);
+	}
+	
+	public void keyPressed(KeyEvent e)
+	{
+		if (e.getKeyCode() == KeyEvent.VK_A) turningLeft = true;
+		if (e.getKeyCode() == KeyEvent.VK_D) turningRight = true;
+	}
+	
+	public void keyReleased(KeyEvent e) 
+	{
+		if (e.getKeyCode() == KeyEvent.VK_A) turningLeft = false;
+		if (e.getKeyCode() == KeyEvent.VK_D) turningRight = false;
 	}
 	
 	public void rotate(double dTheta)
@@ -34,27 +62,29 @@ public class Car
 		angle += dTheta;
 	}
 	
-	public void paint(Graphics2D g2d)
+	public void update()
 	{
-		//get the corners of the car currently
-		int[] xCoords = new int[] {(int) (x + size*Math.cos(angle+Math.PI/6)),
-				   (int) (x + size*Math.cos(angle+5*Math.PI/6)),
-				   (int) (x + size*Math.cos(angle+7*Math.PI/6)),
-				   (int) (x + size*Math.cos(angle+11*Math.PI/6))};
-		int[] yCoords = new int[] {(int) (y + size*Math.sin(angle+Math.PI/6)),
-				   (int) (y + size*Math.sin(angle+5*Math.PI/6)),
-				   (int) (y + size*Math.sin(angle+7*Math.PI/6)),
-				   (int) (y + size*Math.sin(angle+11*Math.PI/6))};
-		//rectangle rotates as instance variable angle increases or decreases
-		body = new Polygon(xCoords, yCoords, 4);
+		if (turningRight) turningAngle += TURN_SPEED;
+		if (turningLeft ) turningAngle -= TURN_SPEED;
+	}
+	
+	public void paint(Graphics2D g2d)
+	{	
+		body = new RotatingRectangle(x,y,length,width, angle);
+		wheelWells = new RotatingRectangle(x,y, length *0.7, width, angle);
 		
 		g2d.setColor(Color.BLACK);
-		for (int i = 0; i < xCoords.length; i++)
+		for (int i = 0; i < wheelWells.getCorners().length; i++)
 		{
-			g2d.fillRect(xCoords[i], yCoords[i], 10, 5);
+			Point point = wheelWells.getCorners()[i];
+			
+			if (i == 1 || i == 2)
+				(new RotatingRectangle(point.getX(), point.getY(), 10,5, angle + turningAngle)).paint(g2d);
+			else
+				(new RotatingRectangle(point.getX(), point.getY(), 10,5, angle)).paint(g2d);
 		}
 		
 		g2d.setColor(color);
-		g2d.fillPolygon(body);
+		body.paint(g2d);
 	}
 }
