@@ -26,7 +26,7 @@ public class Race extends JComponent
 			@Override
 			public void keyPressed(KeyEvent e) 
 			{
-				System.out.println("Key Pressed: " + KeyEvent.KEY_PRESSED);
+				System.out.println("Key Pressed: " + e.getKeyChar());
 				if (e.getKeyCode() == KeyEvent.VK_ESCAPE)
 				{
 					togglePauseMenu();
@@ -46,9 +46,10 @@ public class Race extends JComponent
 			}
 		});
 		
+		this.setPreferredSize(game.getFrame().getSize());
+		
+		this.setVisible(true);
 		this.setFocusable(true);
-		this.requestFocusInWindow();
-		this.grabFocus();
 	}
 	
 	public void update()

@@ -26,6 +26,7 @@ public class Game
 		{
 			try
 			{
+//				System.out.println(disp.getFocusOwner());
 				race.update();
 			}
 			catch (NullPointerException e)
@@ -54,6 +55,8 @@ public class Game
 		
 		race = new Race(this);
 		disp.add(race);
+		//aha this line is so important do not delete, it brings the focus of the JFrame to the race
+		disp.getContentPane().transferFocus();
 		
 		disp.revalidate();
 		disp.repaint();
