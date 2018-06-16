@@ -9,17 +9,20 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
-public class Race extends JComponent 
+public class Race extends JPanel 
 {
 	private Game game;
 	private Car car;
 	
 	private boolean paused;
+	
 	public Race(Game gameIn)
 	{
 		game = gameIn;
 		car = new Car();
 		paused = false;
+		
+//		togglePauseMenu();
 		
 		addKeyListener(new KeyListener() 
 		{
@@ -27,10 +30,7 @@ public class Race extends JComponent
 			public void keyPressed(KeyEvent e) 
 			{
 				System.out.println("Key Pressed: " + e.getKeyChar());
-				if (e.getKeyCode() == KeyEvent.VK_ESCAPE)
-				{
-					togglePauseMenu();
-				}
+				if (e.getKeyCode() == KeyEvent.VK_ESCAPE) paused = !paused;
 			}
 			@Override
 			public void keyReleased(KeyEvent e) 
@@ -46,9 +46,6 @@ public class Race extends JComponent
 			}
 		});
 		
-		this.setPreferredSize(game.getFrame().getSize());
-		
-		this.setVisible(true);
 		this.setFocusable(true);
 	}
 	
@@ -56,11 +53,18 @@ public class Race extends JComponent
 	{
 		car.rotate(0.001);
 		
+		if (paused)
+		{
+			togglePauseMenu();
+		}
+		
+		this.revalidate();
 		this.repaint();
 	}
 	
 	public void togglePauseMenu()
 	{
+		System.out.println("hi");
 		JButton exit = new JButton("To Main Menu");
 		exit.addActionListener(new ActionListener() {
 
@@ -71,18 +75,12 @@ public class Race extends JComponent
 			}
 			
 		});
-		if (!paused) 
-		{
-			this.add(exit);
-		}
-		else
-		{
-			this.remove(exit);
-		}
+		this.add(exit);
 	}
 	
 	public void paintComponent(Graphics g)
 	{
+		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
 		
 		car.paint(g2d);
