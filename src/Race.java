@@ -51,7 +51,7 @@ public class Race extends JPanel
 	
 	private void initializePauseMenu() 
 	{
-		JButton exit = new JButton("To Main Menu");
+		JButton exit = new JButton("To Main Menu (Exit Race)");
 		exit.addActionListener(new ActionListener() {
 
 			@Override
@@ -71,9 +71,10 @@ public class Race extends JPanel
 
 	public void update()
 	{
-//		car.rotate(0.001);
-		
-		car.update();
+		if (!paused)
+		{
+			car.update();
+		}
 		
 		showPauseMenu(paused);
 		
