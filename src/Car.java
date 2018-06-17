@@ -16,8 +16,12 @@ public class Car
 	
 	public static final double TURN_SPEED = 0.005;
 	public static final double MAX_TURN = Math.PI/4;
-	public static final double ACCEL = 1;
-	public static final double BRAKE_CONST = 0.995;
+	public static final double ACCEL = 0.5;
+	public static final double BRAKE_CONST = 0.999;
+	
+	public static final double RED_LINE = 6000;
+	
+	private double redLine;
 	
 	private double x;
 	private double y;
@@ -47,6 +51,8 @@ public class Car
 	
 	public Car()
 	{
+		redLine = RED_LINE;
+		
 		x = 500;
 		y = 350;
 		angle = Math.PI/2;
@@ -97,15 +103,19 @@ public class Car
 		else if (!turningLeft && turningAngle < 0) turningAngle += TURN_SPEED/2;
 		
 		if (accelerating) engine.addRPM(ACCEL);
-		else engine.addRPM(-ACCEL/2);
+		else engine.addRPM(-ACCEL*3);
 		
-		angle += turningAngle * getLinSpeed() * 0.0015;
+		double oldAngle = angle *1;
 		
-		xSpeed += Math.cos(angle-Math.PI) * engine.getRPM() * 0.00001;
-		ySpeed -= Math.sin(angle) * engine.getRPM() * 0.00001;
+		angle += turningAngle * getLinSpeed() * 0.01;
 		
-		xSpeed = xSpeed * Math.cos(turningAngle) - ySpeed * Math.sin(turningAngle);
-		ySpeed = xSpeed * Math.sin(turningAngle) + ySpeed * Math.cos(turningAngle);
+		xSpeed += Math.cos(angle-Math.PI) * engine.getRPM() * 0.0000001;
+		ySpeed -= Math.sin(angle) * engine.getRPM() * 0.0000001;
+		
+		double angleDiff = angle - oldAngle;
+		
+		xSpeed = xSpeed * Math.cos(angleDiff) - ySpeed * Math.sin(angleDiff);
+		ySpeed = xSpeed * Math.sin(angleDiff) + ySpeed * Math.cos(angleDiff);
 		
 		if (braking)
 		{
@@ -155,4 +165,7 @@ public class Car
 		g2d.setColor(color);
 		body.paint(g2d);
 	}
+	
+	public double getRedLine() {return redLine;}
+	public Engine getEngine() {return engine;}
 }

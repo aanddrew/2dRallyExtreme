@@ -18,6 +18,8 @@ public class Race extends JPanel
 	private ArrayList<JComponent> pauseMenu;
 	private boolean paused;
 	
+	private Animator animator;
+	
 	public Race(Game gameIn)
 	{
 		game = gameIn;
@@ -25,6 +27,8 @@ public class Race extends JPanel
 		paused = false;
 		pauseMenu = new ArrayList<JComponent>();
 		initializePauseMenu();
+		
+		animator = new Animator(this);
 		
 		addKeyListener(new KeyListener() 
 		{
@@ -82,6 +86,13 @@ public class Race extends JPanel
 		this.repaint();
 	}
 	
+	public void drawHud(Graphics2D g2d)
+	{
+		animator.drawTachometer(g2d);
+	}
+	
+	public Car getCar() {return car;}
+	
 	public void showPauseMenu(boolean visible)
 	{
 		for (JComponent comp : pauseMenu)
@@ -96,5 +107,6 @@ public class Race extends JPanel
 		Graphics2D g2d = (Graphics2D) g;
 		
 		car.paint(g2d);
+		drawHud(g2d);
 	}
 }
