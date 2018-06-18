@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
@@ -12,6 +13,8 @@ import javax.swing.JPanel;
 
 public class Race extends JPanel 
 {
+	public static final double FEET_PER_PIXEL = 15.0/40.0;
+	
 	private Game game;
 	private Car car;
 	
@@ -89,6 +92,12 @@ public class Race extends JPanel
 	public void drawHud(Graphics2D g2d)
 	{
 		animator.drawTachometer(g2d);
+		animator.drawGear(g2d);
+		animator.drawSpeedometer(g2d);
+		if (paused) {
+			g2d.setColor(new Color(0,0,0,128));
+			g2d.fillRect(0, 0, this.getWidth(), this.getHeight());
+		}
 	}
 	
 	public Car getCar() {return car;}
