@@ -17,7 +17,7 @@ public class Car
 	public static final double TURN_SPEED = 0.005;
 	public static final double MAX_TURN = Math.PI/4;
 	public static final double ACCEL = 0.5;
-	public static final double BRAKE_CONST = 0.999;
+	public static final double BRAKE_CONST = 0.00025;
 	public static final double TOP_SPEED = 250.0;
 	
 	public static final double RED_LINE = 6000;
@@ -146,8 +146,19 @@ public class Car
 		
 		if (braking)
 		{
-			xSpeed *= BRAKE_CONST;
-			ySpeed *= BRAKE_CONST;
+			if (Math.abs(xSpeed) - BRAKE_CONST < 0)
+				xSpeed = 0;
+			else
+				xSpeed += BRAKE_CONST * Math.cos(angle);
+			if (Math.abs(ySpeed) - BRAKE_CONST < 0)
+				ySpeed = 0;
+			else
+				ySpeed += BRAKE_CONST * Math.sin(angle);
+		}
+		else
+		{
+			xSpeed *= 0.9999;
+			ySpeed *= 0.9999;
 		}
 		
 		x += xSpeed;
