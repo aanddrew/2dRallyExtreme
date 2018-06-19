@@ -78,4 +78,11 @@ public class Animator
 		
 //		System.out.println(car.getLinSpeed()*1000 * Race.FEET_PER_PIXEL * 3600/5280);
 	}
+	
+	public void drawPedals(Graphics2D g2d)
+	{
+		g2d.setColor(Color.BLACK);
+		if (car.getClutchIn()){g2d.fillRect(300, race.getHeight()-50, 50, -20);}
+		else {g2d.fillRect(300, race.getHeight()-50, 50, -100);	}
+	}
 }

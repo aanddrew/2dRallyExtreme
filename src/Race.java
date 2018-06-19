@@ -94,6 +94,7 @@ public class Race extends JPanel
 		animator.drawTachometer(g2d);
 		animator.drawGear(g2d);
 		animator.drawSpeedometer(g2d);
+		animator.drawPedals(g2d);
 		if (paused) {
 			g2d.setColor(new Color(0,0,0,128));
 			g2d.fillRect(0, 0, this.getWidth(), this.getHeight());

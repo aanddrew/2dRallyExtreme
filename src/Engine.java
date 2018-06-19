@@ -14,6 +14,11 @@ public class Engine
 			rpm += omega;
 	}
 	
+	public void setRPM(double rpmIn)
+	{
+		rpm = rpmIn;
+	}
+	
 	public double getRPM()
 	{
 		return rpm;

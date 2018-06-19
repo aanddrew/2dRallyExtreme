@@ -21,12 +21,15 @@ public class Car
 	public static final double TOP_SPEED = 250.0;
 	
 	public static final double RED_LINE = 6000;
-	public static final double[] GEAR_RATIOS = new double[] {4,2,1, 0.75, 0.5};
+	public static final double[] GEAR_RATIOS = new double[] {4,2,1, 0.75, 0.5, 0.25};
 	
 	private double redLine;
 	private double topSpeed;
 	private double[] gears;
 	public int gear;
+	
+	private double brakeAmount;
+	private double gasAmount;
 	
 	private double x;
 	private double y;
@@ -53,8 +56,7 @@ public class Car
 	private boolean braking;
 	
 	private boolean clutchIn;
-	
-	private double driveSpeed;
+	private boolean justClutched;
 	
 	public Car()
 	{
@@ -73,6 +75,9 @@ public class Car
 		length = 40;
 		width = 25;
 		
+		brakeAmount = 0.0;
+		gasAmount = 0.0;
+		
 		body = new RotatingRectangle(x,y,length,width, angle);
 		wheelWells = new RotatingRectangle(x,y, length *0.7, width, angle);
 		tires = new Tire[4];
@@ -81,7 +86,6 @@ public class Car
 		clutchIn = false;
 		
 		topSpeed = TOP_SPEED;
-		driveSpeed = 0;
 	}
 	
 	public void keyPressed(KeyEvent e)
@@ -91,7 +95,7 @@ public class Car
 		if (e.getKeyCode() == KeyEvent.VK_W) accelerating = true;
 		if (e.getKeyCode() == KeyEvent.VK_SPACE) braking = true;
 		
-		if (e.getKeyCode() == KeyEvent.VK_SHIFT || e.getKeyCode() == KeyEvent.VK_TAB) clutchIn = true; 
+		if (e.getKeyCode() == KeyEvent.VK_SHIFT) clutchIn = true; 
 	}
 	
 	public void keyReleased(KeyEvent e) 
@@ -101,16 +105,15 @@ public class Car
 		if (e.getKeyCode() == KeyEvent.VK_W) accelerating = false;
 		if (e.getKeyCode() == KeyEvent.VK_SPACE) braking = false;
 		
-		if (e.getKeyCode() == KeyEvent.VK_Z) 
+		if (e.getKeyCode() == KeyEvent.VK_Z && clutchIn) 
 		{
-			clutchIn = false;
 			if (gear > 0) gear--;
 		}
-		if (e.getKeyCode() == KeyEvent.VK_Q)
+		if (e.getKeyCode() == KeyEvent.VK_Q && clutchIn)
 		{
-			clutchIn = false;
 			if (gear < gears.length-1) gear++;
 		}
+		if (e.getKeyCode() == KeyEvent.VK_SHIFT) clutchIn = false; 
 	}
 	
 	public void rotate(double dTheta)
@@ -127,7 +130,7 @@ public class Car
 		if (turningLeft  && turningAngle > -1*Math.PI/4) turningAngle -= TURN_SPEED;
 		else if (!turningLeft && turningAngle < 0) turningAngle += TURN_SPEED/2;
 		
-		if (accelerating) engine.addRPM(ACCEL);
+		if (accelerating) engine.addRPM(ACCEL*getGearRatio());
 		else engine.addRPM(-ACCEL*3);
 		
 		//get the old angle to use to get the angle diff
@@ -135,9 +138,19 @@ public class Car
 		
 		angle += turningAngle * getLinSpeed() * 0.01;
 		
-		xSpeed += Math.cos(angle-Math.PI) * engine.getRPM() * 0.0000001 * getGearRatio();
-		ySpeed -= Math.sin(angle) * engine.getRPM() * 0.0000001 * getGearRatio();
-		
+		if (!clutchIn) 
+		{	
+			if (!justClutched)
+			{
+				xSpeed = Math.cos(angle-Math.PI) * engine.getRPM() /10000 / getGearRatio();
+				ySpeed = -1*Math.sin(angle) * engine.getRPM() /10000 / getGearRatio();
+			}
+			System.out.println(engine.getRPM() /10000 / getGearRatio());
+			
+			engine.setRPM(getLinSpeed()* 100000 / getGearRatio());
+			justClutched = false;
+		}
+		else {justClutched = true;}
 		//get the difference after the angle is rotated
 		double angleDiff = angle - oldAngle;
 		
@@ -212,4 +225,5 @@ public class Car
 	public double getGearRatio() {return gears[gear];}
 	public int getGear() {return gear;}
 	public double getTopSpeed() {return topSpeed;}
+	public boolean getClutchIn() {return clutchIn;}
 }
