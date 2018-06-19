@@ -21,7 +21,7 @@ public class Car
 	public static final double TOP_SPEED = 250.0;
 	
 	public static final double RED_LINE = 6000;
-	public static final double[] GEAR_RATIOS = new double[] {4,2,1, 0.75, 0.5, 0.25};
+	public static final double[] GEAR_RATIOS = new double[] {4,2,1, 0.75, 0.6, 0.5};
 	
 	private double redLine;
 	private double topSpeed;
@@ -131,7 +131,7 @@ public class Car
 		else if (!turningLeft && turningAngle < 0) turningAngle += TURN_SPEED/2;
 		
 		if (accelerating) engine.addRPM(ACCEL*getGearRatio());
-		else engine.addRPM(-ACCEL*3);
+		else engine.addRPM(-ACCEL*getGearRatio());
 		
 		//get the old angle to use to get the angle diff
 		double oldAngle = angle *1;
@@ -142,12 +142,16 @@ public class Car
 		{	
 			if (!justClutched)
 			{
-				xSpeed = Math.cos(angle-Math.PI) * engine.getRPM() /10000 / getGearRatio();
-				ySpeed = -1*Math.sin(angle) * engine.getRPM() /10000 / getGearRatio();
+				double linSpeed = engine.getRPM() /20000 / getGearRatio();
+				
+				xSpeed = Math.cos(angle-Math.PI) * linSpeed;
+				ySpeed = -1*Math.sin(angle) * linSpeed;
 			}
-			System.out.println(engine.getRPM() /10000 / getGearRatio());
+			else 
+			{
+				engine.setRPM(getLinSpeed()* 20000 * getGearRatio());
+			}
 			
-			engine.setRPM(getLinSpeed()* 100000 / getGearRatio());
 			justClutched = false;
 		}
 		else {justClutched = true;}
