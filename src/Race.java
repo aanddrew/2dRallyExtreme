@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -13,23 +14,27 @@ import javax.swing.JPanel;
 
 public class Race extends JPanel 
 {
-	public static final double FEET_PER_PIXEL = 15.0/40.0;
+	public static final double FEET_PER_PIXEL = 20.0/40.0;
 	
 	private Game game;
 	private Car car;
+	
+	private Track track;
 	
 	private ArrayList<JComponent> pauseMenu;
 	private boolean paused;
 	
 	private Animator animator;
 	
-	public Race(Game gameIn)
+	public Race(Game gameIn) throws IOException
 	{
 		game = gameIn;
 		car = new Car();
 		paused = false;
 		pauseMenu = new ArrayList<JComponent>();
 		initializePauseMenu();
+		
+		track = new Track();
 		
 		animator = new Animator(this);
 		
@@ -115,6 +120,8 @@ public class Race extends JPanel
 	{
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
+		
+		track.paint(g2d);
 		
 		car.paint(g2d);
 		drawHud(g2d);

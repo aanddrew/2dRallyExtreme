@@ -1,3 +1,5 @@
+import java.io.IOException;
+
 import javax.swing.JFrame;
 
 /**
@@ -45,7 +47,7 @@ public class Game
 		disp.repaint();
 	}
 	
-	public void toRace()
+	public void toRace() throws IOException
 	{
 		System.out.println("Entering Race!");
 		racing = true;

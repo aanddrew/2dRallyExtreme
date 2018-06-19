@@ -21,7 +21,7 @@ public class Car
 	public static final double TOP_SPEED = 250.0;
 	
 	public static final double RED_LINE = 6000;
-	public static final double[] GEAR_RATIOS = new double[] {4,2,1, 0.75, 0.6, 0.5};
+	public static final double[] GEAR_RATIOS = new double[] {3,2,1, 0.75, 0.6, 0.5};
 	
 	private double redLine;
 	private double topSpeed;
@@ -230,4 +230,6 @@ public class Car
 	public int getGear() {return gear;}
 	public double getTopSpeed() {return topSpeed;}
 	public boolean getClutchIn() {return clutchIn;}
+	public double getXSpeed() {return xSpeed;}
+	public double getYSpeed() {return ySpeed;}
 }
