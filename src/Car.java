@@ -15,13 +15,13 @@ public class Car
 	private CarProperties props;
 	
 	public static final double TURN_SPEED = 0.005;
-	public static final double MAX_TURN = Math.PI/4;
-	public static final double ACCEL = 0.5;
+	public static final double MAX_TURN = Math.PI/3;
+	public static final double ACCEL = 1;
 	public static final double BRAKE_CONST = 0.00025;
 	public static final double TOP_SPEED = 250.0;
 	
 	public static final double RED_LINE = 6000;
-	public static final double[] GEAR_RATIOS = new double[] {3,2,1, 0.75, 0.6, 0.5};
+	public static final double[] GEAR_RATIOS = new double[] {3.2,2.1,1.5, 1.1, 0.75, 0.5};
 	
 	private double redLine;
 	private double topSpeed;
@@ -124,10 +124,10 @@ public class Car
 	public void update()
 	{
 		//steering mechanics
-		if (turningRight && turningAngle < Math.PI/4) turningAngle += TURN_SPEED;
+		if (turningRight && turningAngle < MAX_TURN) turningAngle += TURN_SPEED;
 		else if (!turningRight && turningAngle > 0) turningAngle -= TURN_SPEED/2;
 		
-		if (turningLeft  && turningAngle > -1*Math.PI/4) turningAngle -= TURN_SPEED;
+		if (turningLeft  && turningAngle > -1*MAX_TURN) turningAngle -= TURN_SPEED;
 		else if (!turningLeft && turningAngle < 0) turningAngle += TURN_SPEED/2;
 		
 		if (accelerating) engine.addRPM(ACCEL*getGearRatio());
@@ -176,6 +176,7 @@ public class Car
 		{
 			xSpeed *= 0.9999;
 			ySpeed *= 0.9999;
+			engine.setRPM(engine.getRPM()*0.9999);
 		}
 		
 		x += xSpeed;
