@@ -23,4 +23,9 @@ public class Engine
 	{
 		return rpm;
 	}
+	
+	public double getDisplayRPM()
+	{
+		return rpm / Race.RPM_FIX;
+	}
 }

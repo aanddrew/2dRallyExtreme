@@ -24,7 +24,7 @@ public class Animator
 		//blue filling arc
 		g2d.setStroke(new BasicStroke(5));
 		g2d.setColor(new Color(100,255,255));
-		g2d.drawArc(50, race.getHeight()-250, 200, 200, -120, (int)(-300*(car.getEngine().getRPM()/(car.getRedLine()+2000))));
+		g2d.drawArc(50, race.getHeight()-250, 200, 200, -120, (int)(-300*(car.getEngine().getDisplayRPM()/(car.getRedLine()+2000))));
 		
 		g2d.setColor(new Color(255, 0, 0));
 		g2d.setFont(new Font("Calibri", Font.PLAIN, 20));
@@ -37,8 +37,8 @@ public class Animator
 		//the needle
 		g2d.setColor(Color.RED);
 		g2d.setStroke(new BasicStroke(3));
-		g2d.drawLine(150, race.getHeight()-150, (int)(150+ 100*Math.cos(2*Math.PI/3 + ((5*Math.PI/3)*(car.getEngine().getRPM()/(car.getRedLine()+2000))))), 
-				(int)(race.getHeight()-150 + 100*Math.sin(2*Math.PI/3 + (5*Math.PI/3)*(car.getEngine().getRPM()/(car.getRedLine()+2000)))));
+		g2d.drawLine(150, race.getHeight()-150, (int)(150+ 100*Math.cos(2*Math.PI/3 + ((5*Math.PI/3)*(car.getEngine().getDisplayRPM()/(car.getRedLine()+2000))))), 
+				(int)(race.getHeight()-150 + 100*Math.sin(2*Math.PI/3 + (5*Math.PI/3)*(car.getEngine().getDisplayRPM()/(car.getRedLine()+2000)))));
 	}
 	
 	public void drawGear(Graphics2D g2d)
@@ -60,7 +60,7 @@ public class Animator
 		//blue filling arc
 		g2d.setStroke(new BasicStroke(5));
 		g2d.setColor(new Color(100,255,255));
-		g2d.drawArc(race.getWidth()-250, race.getHeight()-250, 200, 200, -120, (int)(-300*(car.getSpeedMPH()/car.getTopSpeed())));
+		g2d.drawArc(race.getWidth()-250, race.getHeight()-250, 200, 200, -120, (int)(-300*(car.getDisplaySpeed()/car.getTopSpeed())));
 		
 		g2d.setColor(new Color(255, 0, 0));
 		g2d.setFont(new Font("Calibri", Font.PLAIN, 10));
@@ -73,8 +73,8 @@ public class Animator
 		//the needle
 		g2d.setColor(Color.RED);
 		g2d.setStroke(new BasicStroke(3));
-		g2d.drawLine(race.getWidth()-150, race.getHeight()-150, (int)(race.getWidth() - 150+ 100*Math.cos(2*Math.PI/3 + ((5*Math.PI/3)*(car.getSpeedMPH()/car.getTopSpeed())))), 
-				(int)(race.getHeight()-150 + 100*Math.sin(2*Math.PI/3 + (5*Math.PI/3)*(car.getSpeedMPH()/car.getTopSpeed()))));
+		g2d.drawLine(race.getWidth()-150, race.getHeight()-150, (int)(race.getWidth() - 150+ 100*Math.cos(2*Math.PI/3 + ((5*Math.PI/3)*(car.getDisplaySpeed()/car.getTopSpeed())))), 
+				(int)(race.getHeight()-150 + 100*Math.sin(2*Math.PI/3 + (5*Math.PI/3)*(car.getDisplaySpeed()/car.getTopSpeed()))));
 		
 //		System.out.println(car.getLinSpeed()*1000 * Race.FEET_PER_PIXEL * 3600/5280);
 	}

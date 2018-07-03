@@ -1,13 +1,16 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
@@ -15,6 +18,8 @@ import javax.swing.JPanel;
 public class Race extends JPanel 
 {
 	public static final double FEET_PER_PIXEL = 20.0/40.0;
+	public static final double RPM_FIX = 10;
+	public static final double SPEED_FIX = 5;
 	
 	private Game game;
 	private Car car;
@@ -122,6 +127,16 @@ public class Race extends JPanel
 		Graphics2D g2d = (Graphics2D) g;
 		
 		track.paint(g2d);
+		
+		Image img = null;
+		try {
+			img = ImageIO.read(new File("Track01.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		g2d.drawImage(img, -200, -200, null);
 		
 		car.paint(g2d);
 		drawHud(g2d);

@@ -16,12 +16,12 @@ public class Car
 	
 	public static final double TURN_SPEED = 0.005;
 	public static final double MAX_TURN = Math.PI/3;
-	public static final double ACCEL = 1;
+	public static final double ACCEL = 10;
 	public static final double BRAKE_CONST = 0.00025;
 	public static final double TOP_SPEED = 250.0;
 	
 	public static final double RED_LINE = 6000;
-	public static final double[] GEAR_RATIOS = new double[] {3.2,2.1,1.5, 1.1, 0.75, 0.5};
+	public static final double[] GEAR_RATIOS = new double[] {6.4,3.15,1.5, 1.0, 0.75, 0.5};
 	
 	private double redLine;
 	private double topSpeed;
@@ -196,6 +196,11 @@ public class Car
 	public double getSpeedMPH()
 	{
 		return this.getLinSpeed()*1000 * Race.FEET_PER_PIXEL * 3600/5280;
+	}
+	
+	public double getDisplaySpeed()
+	{
+		return this.getSpeedMPH()/Race.SPEED_FIX;
 	}
 
 	public void paint(Graphics2D g2d)
