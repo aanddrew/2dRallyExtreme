@@ -1,10 +1,12 @@
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.event.KeyEvent;
 
 import assets.graphics.RotatingRectangle;
+import assets.utilities.Utils;
 
 /**
  * A car.
@@ -12,9 +14,10 @@ import assets.graphics.RotatingRectangle;
  */
 public class Car 
 {
+	private Race race;
 	private CarProperties props;
 	
-	public static final double TURN_SPEED = 0.005;
+	public static final double TURN_SPEED = 0.01;
 	public static final double MAX_TURN = Math.PI/3;
 	public static final double ACCEL = 10;
 	public static final double BRAKE_CONST = 0.00025;
@@ -27,6 +30,8 @@ public class Car
 	private double topSpeed;
 	private double[] gears;
 	public int gear;
+	
+	private double mouseAngle;
 	
 	private double brakeAmount;
 	private double gasAmount;
@@ -58,8 +63,10 @@ public class Car
 	private boolean clutchIn;
 	private boolean justClutched;
 	
-	public Car()
+	public Car(Race raceIn)
 	{
+		race = raceIn;
+		
 		redLine = RED_LINE;
 		gears = GEAR_RATIOS;
 		gear = 0;
@@ -67,6 +74,7 @@ public class Car
 		x = 500;
 		y = 350;
 		angle = Math.PI/2;
+		mouseAngle = Math.PI/2;
 		
 		xSpeed = 0;
 		ySpeed = 0;
@@ -123,6 +131,18 @@ public class Car
 	
 	public void update()
 	{
+//		Point mP = Utils.getRelMouseLoc(race.getFrame());
+//		int mouseX = (int) MouseInfo.getPointerInfo().getLocation().getX();
+//		mouseAngle = Math.asin((mP.getY()-y)/(Point.distance(mP.getX(), mP.getY(), x, y)));
+//		if (mP.getX() < x)
+//		{
+//			mouseAngle = Math.PI-mouseAngle;
+//		}
+//		mouseAngle += Math.PI;
+//		System.out.println(mouseAngle);
+//		turningAngle += mP
+		
+//		System.out.println(angle);
 		//steering mechanics
 		if (turningRight && turningAngle < MAX_TURN) turningAngle += TURN_SPEED;
 		else if (!turningRight && turningAngle > 0) turningAngle -= TURN_SPEED/2;
@@ -163,6 +183,8 @@ public class Car
 		
 		if (braking)
 		{
+			angle += turningAngle *0.001;
+			
 			if (Math.abs(xSpeed) - BRAKE_CONST < 0)
 				xSpeed = 0;
 			else
@@ -179,8 +201,10 @@ public class Car
 			engine.setRPM(engine.getRPM()*0.9999);
 		}
 		
-		x += xSpeed;
-		y += ySpeed;
+//		x += xSpeed;
+//		y += ySpeed;
+		
+		race.moveTrack(-1*xSpeed, -1*ySpeed);
 		
 		if (Math.abs(turningAngle) < 0.0025) turningAngle = 0;
 //		System.out.println(1/Math.tan(turningAngle));

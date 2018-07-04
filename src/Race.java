@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class Race extends JPanel 
@@ -34,12 +35,12 @@ public class Race extends JPanel
 	public Race(Game gameIn) throws IOException
 	{
 		game = gameIn;
-		car = new Car();
+		car = new Car(this);
 		paused = false;
 		pauseMenu = new ArrayList<JComponent>();
 		initializePauseMenu();
 		
-		track = new Track();
+		track = new Track(this);
 		
 		animator = new Animator(this);
 		
@@ -111,7 +112,13 @@ public class Race extends JPanel
 		}
 	}
 	
+	public void moveTrack(double dX, double dY)
+	{
+		track.move(dX,dY);
+	}
+	
 	public Car getCar() {return car;}
+	public JFrame getFrame() {return game.getFrame();}
 	
 	public void showPauseMenu(boolean visible)
 	{
@@ -127,18 +134,6 @@ public class Race extends JPanel
 		Graphics2D g2d = (Graphics2D) g;
 		
 		track.paint(g2d);
-		
-		Image img = null;
-		try {
-			img = ImageIO.read(new File("Track01.png"));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		System.out.println(img);
-		
-		g2d.drawImage(img, -200, -200, null);
 		
 		car.paint(g2d);
 		drawHud(g2d);
