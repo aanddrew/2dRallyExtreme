@@ -136,6 +136,8 @@ public class Race extends JPanel
 			e.printStackTrace();
 		}
 		
+		System.out.println(img);
+		
 		g2d.drawImage(img, -200, -200, null);
 		
 		car.paint(g2d);

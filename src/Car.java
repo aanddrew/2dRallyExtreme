@@ -21,7 +21,7 @@ public class Car
 	public static final double TOP_SPEED = 250.0;
 	
 	public static final double RED_LINE = 6000;
-	public static final double[] GEAR_RATIOS = new double[] {6.4,3.15,1.5, 1.0, 0.75, 0.5};
+	public static final double[] GEAR_RATIOS = new double[] {6.4,3.15,1.75, 1.0, 0.75, 0.5};
 	
 	private double redLine;
 	private double topSpeed;
