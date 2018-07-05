@@ -19,7 +19,7 @@ public class Track
 	{
 		race = raceIn;
 		
-		image = ImageIO.read(new File("Track01.png"));
+		image = ImageIO.read(new File("Track02.png"));
 		x = 0;
 		y = 0;
 	}

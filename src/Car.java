@@ -17,8 +17,8 @@ public class Car
 	private Race race;
 	private CarProperties props;
 	
-	public static final double TURN_SPEED = 0.01;
-	public static final double MAX_TURN = Math.PI/3;
+	public static final double TURN_SPEED = 0.008;
+	public static final double MAX_TURN = Math.PI/4;
 	public static final double ACCEL = 10;
 	public static final double BRAKE_CONST = 0.00025;
 	public static final double TOP_SPEED = 250.0;
@@ -131,23 +131,12 @@ public class Car
 	
 	public void update()
 	{
-//		Point mP = Utils.getRelMouseLoc(race.getFrame());
-//		int mouseX = (int) MouseInfo.getPointerInfo().getLocation().getX();
-//		mouseAngle = Math.asin((mP.getY()-y)/(Point.distance(mP.getX(), mP.getY(), x, y)));
-//		if (mP.getX() < x)
-//		{
-//			mouseAngle = Math.PI-mouseAngle;
-//		}
-//		mouseAngle += Math.PI;
-//		System.out.println(mouseAngle);
-//		turningAngle += mP
-		
-//		System.out.println(angle);
+		System.out.println(TURN_SPEED/Math.pow(getLinSpeed(),2));
 		//steering mechanics
-		if (turningRight && turningAngle < MAX_TURN) turningAngle += TURN_SPEED;
+		if (turningRight && turningAngle < MAX_TURN) turningAngle += TURN_SPEED/Math.pow(getLinSpeed(),2);
 		else if (!turningRight && turningAngle > 0) turningAngle -= TURN_SPEED/2;
 		
-		if (turningLeft  && turningAngle > -1*MAX_TURN) turningAngle -= TURN_SPEED;
+		if (turningLeft  && turningAngle > -1*MAX_TURN) turningAngle -= TURN_SPEED/Math.pow(getLinSpeed(),2);
 		else if (!turningLeft && turningAngle < 0) turningAngle += TURN_SPEED/2;
 		
 		if (accelerating) engine.addRPM(ACCEL*getGearRatio());

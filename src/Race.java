@@ -17,7 +17,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class Race extends JPanel 
-{
+{	
 	public static final double FEET_PER_PIXEL = 20.0/40.0;
 	public static final double RPM_FIX = 10;
 	public static final double SPEED_FIX = 5;
