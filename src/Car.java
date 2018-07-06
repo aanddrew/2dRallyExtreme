@@ -5,6 +5,7 @@ import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.event.KeyEvent;
 
+import assets.graphics.Particle;
 import assets.graphics.RotatingRectangle;
 import assets.utilities.Utils;
 
@@ -137,11 +138,18 @@ public class Car
 	public void update()
 	{
 		//steering mechanics
-		if (turningRight && turningAngle < MAX_TURN) turningAngle += TURN_SPEED/Math.pow(getLinSpeed(),1.5);
-		else if (!turningRight && turningAngle > 0) turningAngle -= TURN_SPEED/2;
+		double turnDelta = TURN_SPEED/Math.pow(getLinSpeed(),1.5);
+		if (turningRight && turningAngle + turnDelta < MAX_TURN) 
+		{
+			turningAngle += turnDelta;
+		}
+			else if (!turningRight && turningAngle > 0) turningAngle -= TURN_SPEED/2;
 		
-		if (turningLeft  && turningAngle > -1*MAX_TURN) turningAngle -= TURN_SPEED/Math.pow(getLinSpeed(),1.5);
-		else if (!turningLeft && turningAngle < 0) turningAngle += TURN_SPEED/2;
+		if (turningLeft  && turningAngle - turnDelta > -1*MAX_TURN) 
+		{
+			turningAngle -= turnDelta;
+		}
+			else if (!turningLeft && turningAngle < 0) turningAngle += TURN_SPEED/2;
 		
 		
 		//acceleration mechanics
@@ -196,15 +204,17 @@ public class Car
 			engine.setRPM(engine.getRPM()*0.9999);
 		}
 		
-		xSpeed *= getTraction();
-		ySpeed *= getTraction();
+		double traction = getTraction();
+		if (traction != 1 && Math.random() < 0.1)
+		{
+			race.addParticle(new Particle(x,y, -xSpeed, -ySpeed));
+		}
+		xSpeed *= traction;
+		ySpeed *= traction;
 		
 		race.moveTrack(-1*xSpeed, -1*ySpeed);
 		
 		if (Math.abs(turningAngle) < 0.0025) turningAngle = 0;
-//		System.out.println(1/Math.tan(turningAngle));
-//		System.out.println(turningAngle);
-//		System.out.println(1/Math.sqrt(1/Math.tan(turningAngle)));
 	}
 	
 	public double getLinSpeed()

@@ -16,6 +16,8 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import assets.graphics.Particle;
+
 public class Race extends JPanel 
 {	
 	public static final double FEET_PER_PIXEL = 20.0/40.0;
@@ -30,6 +32,7 @@ public class Race extends JPanel
 	private ArrayList<JComponent> pauseMenu;
 	private boolean paused;
 	
+	private ArrayList<Particle> particles;
 	private Animator animator;
 	
 	public Race(Game gameIn) throws IOException
@@ -42,6 +45,7 @@ public class Race extends JPanel
 		
 		track = new Track(this);
 		
+		particles = new ArrayList<Particle>();
 		animator = new Animator(this);
 		
 		addKeyListener(new KeyListener() 
@@ -91,6 +95,12 @@ public class Race extends JPanel
 	{
 		return track.getTraction();
 	}
+	
+	public void addParticle(Particle particle)
+	{
+		particles.add(particle);
+//		System.out.println(particles.size());
+	}
 
 	public void update()
 	{
@@ -139,6 +149,17 @@ public class Race extends JPanel
 		Graphics2D g2d = (Graphics2D) g;
 		
 		track.paint(g2d);
+		
+		for (int i = 0; i < particles.size(); i++)
+		{
+			particles.get(i).update();
+			particles.get(i).paint(g2d);
+			if(particles.get(i).isDead())
+			{
+				particles.remove(i);
+				i--;
+			}
+		}
 		
 		car.paint(g2d);
 		drawHud(g2d);

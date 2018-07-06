@@ -31,7 +31,6 @@ public class Track
 	
 	public void paint(Graphics2D g2d)
 	{
-		System.out.println(carOnColor);
 		g2d.drawImage(image,(int) x, (int) y, null);
 	}
 
@@ -53,7 +52,7 @@ public class Track
 		if (carOnColor.equals(new Color(128,128,128)))
 			return 1;
 
-		return 0.1;
+		return 0.5;
 	}
 	
 	public void move(double dX, double dY)
