@@ -86,6 +86,11 @@ public class Race extends JPanel
 			this.add(comp);
 		}
 	}
+	
+	public double getTraction()
+	{
+		return track.getTraction();
+	}
 
 	public void update()
 	{

@@ -129,16 +129,22 @@ public class Car
 		angle += dTheta;
 	}
 	
+	public double getTraction()
+	{
+		return race.getTraction();
+	}
+	
 	public void update()
 	{
-		System.out.println(TURN_SPEED/Math.pow(getLinSpeed(),2));
 		//steering mechanics
-		if (turningRight && turningAngle < MAX_TURN) turningAngle += TURN_SPEED/Math.pow(getLinSpeed(),2);
+		if (turningRight && turningAngle < MAX_TURN) turningAngle += TURN_SPEED/Math.pow(getLinSpeed(),1.5);
 		else if (!turningRight && turningAngle > 0) turningAngle -= TURN_SPEED/2;
 		
-		if (turningLeft  && turningAngle > -1*MAX_TURN) turningAngle -= TURN_SPEED/Math.pow(getLinSpeed(),2);
+		if (turningLeft  && turningAngle > -1*MAX_TURN) turningAngle -= TURN_SPEED/Math.pow(getLinSpeed(),1.5);
 		else if (!turningLeft && turningAngle < 0) turningAngle += TURN_SPEED/2;
 		
+		
+		//acceleration mechanics
 		if (accelerating) engine.addRPM(ACCEL*getGearRatio());
 		else engine.addRPM(-ACCEL*getGearRatio());
 		
@@ -190,8 +196,8 @@ public class Car
 			engine.setRPM(engine.getRPM()*0.9999);
 		}
 		
-//		x += xSpeed;
-//		y += ySpeed;
+		xSpeed *= getTraction();
+		ySpeed *= getTraction();
 		
 		race.moveTrack(-1*xSpeed, -1*ySpeed);
 		

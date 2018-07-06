@@ -12,6 +12,8 @@ public class Track
 	
 	private double x;
 	private double y;
+	
+	private Color carOnColor;
 
 	private BufferedImage image;
 	
@@ -22,21 +24,36 @@ public class Track
 		image = ImageIO.read(new File("Track02.png"));
 		x = 0;
 		y = 0;
+		
+		
+		acquireCarOnColor();
 	}
 	
 	public void paint(Graphics2D g2d)
 	{
+		System.out.println(carOnColor);
 		g2d.drawImage(image,(int) x, (int) y, null);
-		try
+	}
+
+	private void acquireCarOnColor()
+	{
+		try 
 		{
-//			System.out.println(-1*x+race.getWidth()/2);
-			Color c = new Color(image.getRGB(-1*(int)x+race.getWidth()/2, -1*(int)y+race.getHeight()/2));
-//			System.out.println(c.getRed() + " " + c.getGreen() + " " + c.getBlue());
+			carOnColor = new Color(image.getRGB(-1*(int)x+race.getWidth()/2, -1*(int)y+race.getHeight()/2));
 		}
 		catch (ArrayIndexOutOfBoundsException e)
 		{
-			System.out.println("null");
+			
 		}
+	}
+	
+	public double getTraction()
+	{
+		acquireCarOnColor();
+		if (carOnColor.equals(new Color(128,128,128)))
+			return 1;
+
+		return 0.1;
 	}
 	
 	public void move(double dX, double dY)
