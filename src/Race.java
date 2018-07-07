@@ -145,6 +145,7 @@ public class Race extends JPanel
 	
 	public void paintComponent(Graphics g)
 	{
+		System.out.println("paint");
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
 		
@@ -152,12 +153,15 @@ public class Race extends JPanel
 		
 		for (int i = 0; i < particles.size(); i++)
 		{
-			particles.get(i).update();
-			particles.get(i).paint(g2d);
 			if(particles.get(i).isDead())
 			{
 				particles.remove(i);
 				i--;
+			}
+			else
+			{
+				particles.get(i).update();
+				particles.get(i).paint(g2d);
 			}
 		}
 		

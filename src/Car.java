@@ -165,14 +165,14 @@ public class Car
 		{	
 			if (!justClutched)
 			{
-				double linSpeed = engine.getRPM() /20000 / getGearRatio();
+				double linSpeed = engine.getRPM() * getTraction() /20000 / getGearRatio();
 				
 				xSpeed = Math.cos(angle-Math.PI) * linSpeed;
 				ySpeed = -1*Math.sin(angle) * linSpeed;
 			}
 			else 
 			{
-				engine.setRPM(getLinSpeed()* 20000 * getGearRatio());
+				engine.setRPM(getLinSpeed()* 20000 * getGearRatio() / getTraction());
 			}
 			
 			justClutched = false;
@@ -186,7 +186,7 @@ public class Car
 		
 		if (braking)
 		{
-			angle += turningAngle *0.001;
+			angle += turningAngle *0.002;
 			
 			if (Math.abs(xSpeed) - BRAKE_CONST < 0)
 				xSpeed = 0;
@@ -205,12 +205,10 @@ public class Car
 		}
 		
 		double traction = getTraction();
-		if (traction != 1 && Math.random() < 0.1)
+		if (traction != 1)
 		{
 			race.addParticle(new Particle(x,y, -xSpeed, -ySpeed));
 		}
-		xSpeed *= traction;
-		ySpeed *= traction;
 		
 		race.moveTrack(-1*xSpeed, -1*ySpeed);
 		
